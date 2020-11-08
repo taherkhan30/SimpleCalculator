@@ -1,0 +1,25 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: resourcegroup
+    type: string
+    default: 'AZ400'
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'Pay-As-You-Go(aa07614d-2c55-4e18-84ca-108abaaa6fcd)'
+    scriptType: 'pscore'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az appservice plan create -g ${{ parameters.resourcegroup }} -n az400webplan87'
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'Pay-As-You-Go(aa07614d-2c55-4e18-84ca-108abaaa6fcd)'
+    scriptType: 'pscore'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az webapp create -g ${{ parameters.resourcegroup }} -p az400webplan87 -n az400webapp87'
